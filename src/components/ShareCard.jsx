@@ -1,4 +1,38 @@
-import { forwardRef } from 'react'
+import { forwardRef, useRef, useEffect } from 'react'
+
+// Draws the check pattern directly onto a <canvas>.
+// html2canvas reads <canvas> pixel data natively — no CSS parsing needed.
+// This is necessary because html2canvas v1.x cannot render repeating-linear-gradient.
+function CheckPatternCanvas({ width, height, cellSize = 160 }) {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = canvasRef.current?.getContext('2d')
+    if (!ctx) return
+    for (let y = 0; y < height; y += cellSize) {
+      for (let x = 0; x < width; x += cellSize) {
+        // Red tile base
+        ctx.fillStyle = '#CC2128'
+        ctx.fillRect(x, y, cellSize, cellSize)
+        // Left vertical band (top-left + bottom-left quadrants)
+        ctx.fillStyle = 'rgba(0,0,0,0.78)'
+        ctx.fillRect(x, y, cellSize / 2, cellSize)
+        // Bottom horizontal band (bottom-left + bottom-right quadrants)
+        ctx.fillStyle = 'rgba(0,0,0,0.78)'
+        ctx.fillRect(x, y + cellSize / 2, cellSize, cellSize / 2)
+      }
+    }
+  }, [width, height, cellSize])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      style={{ position: 'absolute', top: 0, left: 0 }}
+    />
+  )
+}
 
 const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
   const paragraphs = roastData.roast.split('\n\n').filter(Boolean)
@@ -19,17 +53,7 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
     >
       {/* Masthead */}
       <div style={{ position: 'relative', height: '190px', flexShrink: 0, overflow: 'hidden', borderBottom: '5px solid #0E0808' }}>
-        {/* Inline styles — html2canvas cannot reliably read CSS class-based backgrounds */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundColor: '#CC2128',
-          backgroundImage: [
-            'repeating-linear-gradient(0deg, rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 80px, transparent 80px, transparent 160px)',
-            'repeating-linear-gradient(90deg, rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 80px, transparent 80px, transparent 160px)',
-          ].join(', '),
-          backgroundSize: '160px 160px',
-        }} />
+        <CheckPatternCanvas width={1080} height={190} cellSize={160} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.50) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, height: '100%', padding: '0 64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '64px', lineHeight: 1, color: '#F2EAE8', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
