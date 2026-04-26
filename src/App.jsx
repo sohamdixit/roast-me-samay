@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import FormScreen from './screens/FormScreen'
 import LoadingScreen from './screens/LoadingScreen'
 import RoastScreen from './screens/RoastScreen'
+
+const BEAT_URL = 'https://cdn.pixabay.com/audio/2022/11/22/audio_febc508520.mp3'
 
 const ERROR_MSGS = [
   'server ne bhi roast sunne se mana kar diya. retry kar yaar.',
@@ -21,11 +23,39 @@ export default function App() {
   const [savedForm, setSavedForm] = useState(EMPTY_FORM)
   const [roastData, setRoastData] = useState(null)
   const [error, setError] = useState(null)
+  const [muted, setMuted] = useState(false)
+  const audioRef = useRef(null)
+
+  function startMusic() {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(BEAT_URL)
+      audioRef.current.loop = true
+      audioRef.current.volume = 0.35
+    }
+    audioRef.current.play().catch(() => {}) // silently ignore autoplay block
+  }
+
+  function stopMusic() {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      audioRef.current = null
+    }
+    setMuted(false)
+  }
+
+  function toggleMute() {
+    if (!audioRef.current) return
+    const next = !muted
+    audioRef.current.muted = next
+    setMuted(next)
+  }
 
   async function handleSubmit(data) {
     setSavedForm(data)
     setScreen('loading')
     setError(null)
+    startMusic()
 
     // Ensure loading screen shows for at least 3s so messages are readable
     const minDelay = new Promise(resolve => setTimeout(resolve, 3000))
@@ -43,12 +73,14 @@ export default function App() {
       setScreen('roast')
     } catch {
       await minDelay                               // already resolved if API was slow
+      stopMusic()
       setError(randomError())
       setScreen('form')
     }
   }
 
   function handleRestart() {
+    stopMusic()
     setScreen('form')
     setRoastData(null)
     setSavedForm(EMPTY_FORM)
@@ -61,6 +93,8 @@ export default function App() {
       formData={savedForm}
       roastData={roastData}
       onRestart={handleRestart}
+      muted={muted}
+      onToggleMute={toggleMute}
     />
   )
   return <FormScreen onSubmit={handleSubmit} error={error} initialData={savedForm} />

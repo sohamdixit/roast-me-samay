@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import html2canvas from 'html2canvas'
 import ShareCard from '../components/ShareCard'
 
-export default function RoastScreen({ formData, roastData, onRestart }) {
+export default function RoastScreen({ formData, roastData, onRestart, muted, onToggleMute }) {
   const shareCardRef = useRef(null)
 
   // bars: lines separated by \n, couplets separated by \n\n
@@ -37,13 +37,34 @@ export default function RoastScreen({ formData, roastData, onRestart }) {
       <header className="screen-header relative overflow-hidden border-b-4 border-black">
         <div className="check-pattern absolute inset-0" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(26,16,16,0.10) 0%, rgba(26,16,16,0.45) 100%)' }} />
-        <div className="relative z-10">
-          <h1 className="font-heading text-off-white leading-none" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
-            Roast Me Samay
-          </h1>
-          <div className="inline-block font-mono text-xs text-off-white mt-3" style={{ background: 'rgba(26,16,16,0.78)', padding: '4px 8px' }}>
-            tera diss track aaya, {formData.name}
+        <div className="relative z-10 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-off-white leading-none" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
+              Roast Me Samay
+            </h1>
+            <div className="inline-block font-mono text-xs text-off-white mt-3" style={{ background: 'rgba(26,16,16,0.78)', padding: '4px 8px' }}>
+              tera diss track aaya, {formData.name}
+            </div>
           </div>
+          {/* Mute toggle */}
+          <button
+            type="button"
+            onClick={onToggleMute}
+            title={muted ? 'unmute beat' : 'mute beat'}
+            style={{
+              flexShrink: 0,
+              background: 'rgba(14,8,8,0.72)',
+              border: '1px solid rgba(242,234,232,0.18)',
+              borderRadius: '999px',
+              padding: '6px 10px',
+              fontSize: '18px',
+              lineHeight: 1,
+              cursor: 'pointer',
+              marginTop: '4px',
+            }}
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
         </div>
       </header>
 
