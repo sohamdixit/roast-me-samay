@@ -1,9 +1,16 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import html2canvas from 'html2canvas'
 import ShareCard from '../components/ShareCard'
 
 export default function RoastScreen({ formData, roastData, onRestart, muted, onToggleMute }) {
   const shareCardRef = useRef(null)
+  const [revealing, setRevealing] = useState(true)
+
+  // Kill the flash overlay after its animation finishes
+  useEffect(() => {
+    const t = setTimeout(() => setRevealing(false), 700)
+    return () => clearTimeout(t)
+  }, [])
 
   // bars: lines separated by \n, couplets separated by \n\n
   const couplets = roastData.bars
@@ -32,7 +39,10 @@ export default function RoastScreen({ formData, roastData, onRestart, muted, onT
   }
 
   return (
-    <div className="screen">
+    <>
+    {/* Full-screen red flash on mount — syncs with beat drop */}
+    {revealing && <div className="diss-flash" />}
+    <div className={`screen diss-slam`}>
       {/* Header */}
       <header className="screen-header relative overflow-hidden border-b-4 border-black">
         <div className="check-pattern absolute inset-0" />
@@ -129,5 +139,6 @@ export default function RoastScreen({ formData, roastData, onRestart, muted, onT
         <ShareCard ref={shareCardRef} formData={formData} roastData={roastData} />
       </div>
     </div>
+    </>
   )
 }

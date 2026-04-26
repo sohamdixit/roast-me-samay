@@ -239,3 +239,48 @@ html, body, #root {
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Loading progress bar (10 s fill) ────────────────────────────────────── */
+.loading-progress-track {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: #160C0C;
+  z-index: 50;
+}
+.loading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #CC2128;
+  animation: progressFill 10s linear forwards;
+}
+@keyframes progressFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ─── Diss screen reveal (fires on mount) ─────────────────────────────────── */
+/* Full-screen red flash that slams in then fades */
+@keyframes dissFlash {
+  0%   { opacity: 1; }
+  40%  { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+.diss-flash {
+  position: fixed;
+  inset: 0;
+  background: #CC2128;
+  z-index: 200;
+  pointer-events: none;
+  animation: dissFlash 0.55s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+
+/* Content slams in from slightly above + scales down */
+@keyframes dissSlam {
+  0%   { opacity: 0; transform: scale(1.06) translateY(-12px); }
+  55%  { opacity: 1; transform: scale(0.985) translateY(3px); }
+  100% { opacity: 1; transform: scale(1.0)  translateY(0); }
+}
+.diss-slam {
+  animation: dissSlam 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

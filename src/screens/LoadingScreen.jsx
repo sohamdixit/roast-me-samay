@@ -77,6 +77,11 @@ export default function LoadingScreen() {
       <div className="font-mono text-sm text-muted text-center px-6" style={{ minHeight: '2em' }}>
         {MESSAGES[idx]}
       </div>
+
+      {/* 10-second progress bar — fixed at bottom of viewport */}
+      <div className="loading-progress-track">
+        <div className="loading-progress-bar" />
+      </div>
     </div>
   )
 }

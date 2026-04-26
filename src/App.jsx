@@ -3,7 +3,7 @@ import FormScreen from './screens/FormScreen'
 import LoadingScreen from './screens/LoadingScreen'
 import RoastScreen from './screens/RoastScreen'
 
-const BEAT_URL = 'https://cdn.pixabay.com/audio/2022/11/22/audio_febc508520.mp3'
+const BEAT_URL = '/beat.mp3'
 
 const ERROR_MSGS = [
   'server ne bhi roast sunne se mana kar diya. retry kar yaar.',
@@ -57,8 +57,8 @@ export default function App() {
     setError(null)
     startMusic()
 
-    // Ensure loading screen shows for at least 3s so messages are readable
-    const minDelay = new Promise(resolve => setTimeout(resolve, 3000))
+    // Loading screen runs for exactly 10s — syncs with beat buildup
+    const minDelay = new Promise(resolve => setTimeout(resolve, 10000))
 
     try {
       const res = await fetch('/api/roast', {
