@@ -27,6 +27,9 @@ export default function App() {
     setScreen('loading')
     setError(null)
 
+    // Ensure loading screen shows for at least 3s so messages are readable
+    const minDelay = new Promise(resolve => setTimeout(resolve, 3000))
+
     try {
       const res = await fetch('/api/roast', {
         method: 'POST',
@@ -34,10 +37,12 @@ export default function App() {
         body: JSON.stringify(data),
       })
       const json = await res.json()
+      await minDelay                               // wait out remaining minimum time
       if (!res.ok) throw new Error(json.error || 'Something went wrong')
       setRoastData(json)
       setScreen('roast')
     } catch {
+      await minDelay                               // already resolved if API was slow
       setError(randomError())
       setScreen('form')
     }

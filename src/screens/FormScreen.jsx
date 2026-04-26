@@ -1,36 +1,13 @@
 import { useState } from 'react'
+import { JOBS, CITIES, RELATIONSHIPS, RECENT_LS, SUNDAY_LIES, INITIAL_VISIBLE } from '../data/formOptions'
 
-const JOBS = [
-  'software engineer', 'student', 'MBA / consulting / banking', 'startup founder',
-  'govt job / sarkari', 'creator / freelancer', 'doctor / CA / lawyer',
-  'teacher / professor', 'sales / marketing', 'HR (uff yaar)',
-]
-const CITIES = [
-  'Mumbai', 'Delhi / NCR', 'Bangalore', 'Pune', 'Hyderabad',
-  'Chennai', 'Kolkata', 'Jaipur / Chandigarh', 'tier-2 / chhota sheher', 'abroad / NRI',
-]
-const RELATIONSHIPS = ['single (thriving 🙂)', "it's complicated", 'taken (happily, apparently)', 'recently single', 'married']
-const RECENT_LS = [
-  "chased someone who wasn't interested",
-  'gym membership, gaya 2 baar',
-  "failed interview I'd already bragged about",
-  'ghosted after a date I thought went great',
-  'crypto / stock loss (was gonna be rich)',
-  'bought a course, never opened it',
-  '"kal pakka" — nahi gaya',
-  'started a business, made a logo, stopped',
-  'spent 3 hours on LinkedIn, felt worse',
-  'watched reels till 3am, regretted it',
-]
-const SUNDAY_LIES = [
-  '"kal se gym pakka"', '"fixing sleep schedule tomorrow"',
-  '"will reply to everyone"', '"no Swiggy this week"',
-  '"less screen time, starting now"', '"ek aur episode phir so jate hain"',
-]
-
-function PillGroup({ options, value, onChange, placeholder }) {
+function PillGroup({ options, value, onChange, placeholder, initialVisible = INITIAL_VISIBLE }) {
   const [custom, setCustom] = useState('')
+  const [expanded, setExpanded] = useState(false)
   const isCustomSelected = value && !options.includes(value)
+
+  const visibleOptions = expanded ? options : options.slice(0, initialVisible)
+  const hiddenCount = options.length - initialVisible
 
   function selectPill(opt) {
     setCustom('')
@@ -44,7 +21,7 @@ function PillGroup({ options, value, onChange, placeholder }) {
 
   return (
     <div className="flex flex-wrap gap-2">
-      {options.map(opt => (
+      {visibleOptions.map(opt => (
         <button
           key={opt}
           type="button"
@@ -54,6 +31,15 @@ function PillGroup({ options, value, onChange, placeholder }) {
           {opt}
         </button>
       ))}
+      {!expanded && hiddenCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="pill pill--more"
+        >
+          +{hiddenCount} aur →
+        </button>
+      )}
       <input
         type="text"
         value={isCustomSelected ? value : custom}
@@ -94,11 +80,11 @@ export default function FormScreen({ onSubmit, error, initialData }) {
   return (
     <div className="screen">
       {/* Header */}
-      <header className="relative overflow-hidden border-b-4 border-black" style={{ padding: '40px 24px 36px' }}>
+      <header className="screen-header relative overflow-hidden border-b-4 border-black">
         <div className="check-pattern absolute inset-0" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(26,16,16,0.10) 0%, rgba(26,16,16,0.45) 100%)' }} />
         <div className="relative z-10">
-          <h1 className="font-heading text-5xl text-off-white leading-none" style={{ textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
+          <h1 className="font-heading text-off-white leading-none" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
             Apni Tragedy Bata
           </h1>
           <div className="inline-block font-mono text-xs text-off-white mt-3" style={{ background: 'rgba(26,16,16,0.78)', padding: '4px 8px' }}>
@@ -108,7 +94,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
       </header>
 
       {/* Identity */}
-      <section className="border-b border-black3" style={{ padding: '24px', background: '#160C0C' }}>
+      <section className="screen-section border-b border-black3" style={{ background: '#160C0C' }}>
         <div className="font-mono text-xs text-muted uppercase tracking-widest mb-4">yaar, pehle bata</div>
         <div className="flex gap-3">
           <div className="flex-1">
@@ -122,7 +108,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
               className="text-input"
             />
           </div>
-          <div style={{ flex: '0 0 100px' }}>
+          <div style={{ flex: '0 0 110px' }}>
             <label className="field-label">Umar</label>
             <input
               type="number"
@@ -167,7 +153,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
       </section>
 
       {/* Summary */}
-      <div style={{ margin: '0 24px 24px' }}>
+      <div className="screen-section" style={{ paddingTop: 0 }}>
         <div className="summary">
           <div className="summary-title">tera scene kuch aisa hai</div>
           {summary.map(({ k, v }) => (
@@ -181,13 +167,15 @@ export default function FormScreen({ onSubmit, error, initialData }) {
 
       {/* Error */}
       {error && (
-        <div className="mx-6 mb-4 p-3 border border-red font-mono text-xs" style={{ color: '#CC2128' }}>
-          {error}
+        <div className="screen-section" style={{ paddingTop: 0, paddingBottom: '12px' }}>
+          <div className="p-3 border border-red font-mono text-xs" style={{ color: '#CC2128' }}>
+            {error}
+          </div>
         </div>
       )}
 
       {/* CTA */}
-      <div style={{ padding: '0 24px 24px' }}>
+      <div className="screen-section" style={{ paddingTop: 0 }}>
         <button
           type="button"
           onClick={handleSubmit}

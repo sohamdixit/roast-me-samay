@@ -19,7 +19,17 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
     >
       {/* Masthead */}
       <div style={{ position: 'relative', height: '190px', flexShrink: 0, overflow: 'hidden', borderBottom: '5px solid #0E0808' }}>
-        <div className="check-pattern check-pattern--lg" style={{ position: 'absolute', inset: 0 }} />
+        {/* Inline styles — html2canvas cannot reliably read CSS class-based backgrounds */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: '#CC2128',
+          backgroundImage: [
+            'repeating-linear-gradient(0deg, rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 80px, transparent 80px, transparent 160px)',
+            'repeating-linear-gradient(90deg, rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 80px, transparent 80px, transparent 160px)',
+          ].join(', '),
+          backgroundSize: '160px 160px',
+        }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.50) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, height: '100%', padding: '0 64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '64px', lineHeight: 1, color: '#F2EAE8', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
