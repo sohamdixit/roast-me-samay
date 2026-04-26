@@ -63,7 +63,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
   const ageNum    = parseInt(age, 10)
   const ageError  = age.length > 0
     ? ageNum === 69  ? 'nice.'
-    : ageNum >= 100  ? 'bhai, ek sau se upar? tera most recent L probably the partition hai.'
+    : ageNum >= 100  ? 'BKL...'
     : null
     : null
   const ageBlocks = ageNum >= 100   // 69 is allowed through, 100+ is not
