@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Apni Tragedy Batao — Mockup Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  body { padding: 40px 24px; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  h1 {
+    font-family: 'Boogaloo', cursive;
+    font-size: 56px;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    margin-bottom: 40px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .tile {
+    display: block;
+    background: var(--black2);
+    border: 1px solid var(--black3);
+    text-decoration: none;
+    color: var(--off-white);
+    padding: 24px;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .tile:hover {
+    border-color: var(--red);
+    transform: translateY(-2px);
+  }
+  .tile h2 {
+    font-family: 'Boogaloo', cursive;
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+  .tile .desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .tile .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+
+  .palette {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--black3);
+  }
+  .palette h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 16px;
+  }
+  .swatches { display: flex; gap: 12px; flex-wrap: wrap; }
+  .sw {
+    width: 96px;
+    text-align: center;
+  }
+  .sw .chip {
+    width: 96px;
+    height: 64px;
+    border: 1px solid var(--black3);
+  }
+  .sw .name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .sw .hex {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--off-white);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Roast Me Samay</h1>
+  <div class="subtitle">mockup index · v0.1 · 2026-04-25</div>
+
+  <div class="grid">
+    <a class="tile" href="01-form.html">
+      <div class="num">screen 01</div>
+      <h2>Form</h2>
+      <div class="desc">5 pill questions, live summary, CTA. Validation: Q1, Q3, Q4 required.</div>
+    </a>
+    <a class="tile" href="02-loading.html">
+      <div class="num">screen 02</div>
+      <h2>Loading</h2>
+      <div class="desc">Full-screen, red spinner, rotating Hinglish messages every 1.5s.</div>
+    </a>
+    <a class="tile" href="03-roast.html">
+      <div class="num">screen 03</div>
+      <h2>Roast Output</h2>
+      <div class="desc">4-paragraph roast in DM Sans. Share + regenerate buttons.</div>
+    </a>
+    <a class="tile" href="04-share-card.html">
+      <div class="num">asset 04</div>
+      <h2>Share Card</h2>
+      <div class="desc">1080×1080 PNG export target. Buffalo check at 22% + dark overlay.</div>
+    </a>
+  </div>
+
+  <div class="palette">
+    <h3>palette</h3>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#C0392B"></div><div class="name">red</div><div class="hex">#C0392B</div></div>
+      <div class="sw"><div class="chip" style="background:#A93226"></div><div class="name">red-dark</div><div class="hex">#A93226</div></div>
+      <div class="sw"><div class="chip" style="background:#1A1010"></div><div class="name">black</div><div class="hex">#1A1010</div></div>
+      <div class="sw"><div class="chip" style="background:#221414"></div><div class="name">black2</div><div class="hex">#221414</div></div>
+      <div class="sw"><div class="chip" style="background:#2A1A1A"></div><div class="name">black3</div><div class="hex">#2A1A1A</div></div>
+      <div class="sw"><div class="chip" style="background:#F2EAE8"></div><div class="name">off-white</div><div class="hex" style="color:var(--black)">#F2EAE8</div></div>
+      <div class="sw"><div class="chip" style="background:#9A8885"></div><div class="name">muted</div><div class="hex">#9A8885</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

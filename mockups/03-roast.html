@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mockup 3 — Roast Output</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .roast-section { padding: 24px; }
+
+  .roast-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .roast-divider {
+    height: 16px;
+    width: 96px;
+    margin-bottom: 24px;
+    border-top: 2px solid var(--black);
+    border-bottom: 2px solid var(--black);
+  }
+
+  .roast-body p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--off-white);
+    margin-bottom: 18px;
+  }
+
+  .button-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 24px 32px;
+  }
+
+  .btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    color: var(--off-white);
+    border: 1px solid var(--red);
+    border-radius: 2px;
+    font-family: 'Boogaloo', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-secondary:hover { background: rgba(192, 57, 43, 0.15); }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="check-pattern"></div>
+    <div class="overlay"></div>
+    <div class="header-inner">
+      <h1>Apni Tragedy Bata</h1>
+      <div class="subtitle">fill in. get destroyed. share with enemies.</div>
+    </div>
+  </header>
+
+  <section class="roast-section">
+    <div class="roast-tag">tera roast aaya, Raj</div>
+    <div class="roast-divider check-strip"></div>
+
+    <div class="roast-body">
+      <p>Software engineer. Pune mein. Single.</p>
+      <p>Gym membership li. Do baar gaya. Do yaar. Maine chess tournament mein 4 moves mein haara tha. Us din bhi itna feel nahi hua.</p>
+      <p>Har Sunday — kal se sleep schedule fix. Bhai gym bhi Sunday ko join kiya tha. Do baar gaya. Teri Sunday ki baat pe trust nahi kar sakta koi.</p>
+      <p>Software engineer hai. Client ka bug 4 ghante mein fix. Apni life ka bug — open hai. No assignee.</p>
+    </div>
+  </section>
+
+  <div class="button-row">
+    <button class="cta">share karo →</button>
+    <button class="btn-secondary">ek aur roast →</button>
+  </div>
+
+</div>
+</body>
+</html>

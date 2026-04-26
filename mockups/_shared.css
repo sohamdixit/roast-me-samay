@@ -1,0 +1,264 @@
+/* Apni Tragedy Batao — shared design tokens for mockups */
+
+:root {
+  --red:       #CC2128;   /* punchier scarlet, closer to shirt */
+  --red-dark:  #9E161C;
+  --black:     #0E0808;   /* deeper, like the shirt's black squares */
+  --black2:    #160C0C;
+  --black3:    #241616;
+  --off-white: #F2EAE8;
+  --muted:     #9A8885;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--black);
+  color: var(--off-white);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.font-heading { font-family: 'Boogaloo', cursive; letter-spacing: 0.02em; }
+.font-body    { font-family: 'DM Sans', sans-serif; }
+.font-mono    { font-family: 'DM Mono', monospace; }
+
+/* Buffalo plaid — true Samay shirt pattern.
+   Higher-opacity stripes (0.78) so red squares stay punchy and black
+   squares stay near-pure-black, with crisp dark-red transition zones. */
+.check-pattern {
+  background-color: var(--red);
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 40px,
+      transparent 40px, transparent 80px),
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 40px,
+      transparent 40px, transparent 80px);
+  background-size: 80px 80px;
+}
+
+/* Larger version (used as masthead band on share card) */
+.check-pattern--lg {
+  background-size: 160px 160px;
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 80px,
+      transparent 80px, transparent 160px),
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 80px,
+      transparent 80px, transparent 160px);
+}
+
+/* Tight strip for thin dividers / footer trims */
+.check-strip {
+  background-color: var(--red);
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 14px,
+      transparent 14px, transparent 28px),
+    repeating-linear-gradient(0deg,
+      rgba(0,0,0,0.78) 0px, rgba(0,0,0,0.78) 14px,
+      transparent 14px, transparent 28px);
+  background-size: 28px 28px;
+}
+
+/* Wrapper that simulates a phone-width screen */
+.screen {
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--black);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header with check pattern */
+.app-header {
+  position: relative;
+  padding: 40px 24px 36px;
+  overflow: hidden;
+  border-bottom: 4px solid var(--black);
+}
+.app-header .check-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+/* Light scrim only — keep the plaid clearly visible */
+.app-header .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,16,16,0.10) 0%, rgba(26,16,16,0.45) 100%);
+  z-index: 1;
+}
+.app-header .header-inner {
+  position: relative;
+  z-index: 2;
+}
+.app-header h1 {
+  font-family: 'Boogaloo', cursive;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--off-white);
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.55);
+}
+.app-header .subtitle {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--off-white);
+  margin-top: 12px;
+  background: rgba(26,16,16,0.78);
+  padding: 4px 8px;
+  text-transform: lowercase;
+}
+
+/* Pill buttons */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  background: var(--black2);
+  color: var(--off-white);
+  border: 1px solid var(--black3);
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.pill:hover { border-color: var(--muted); }
+.pill.selected {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--off-white);
+}
+
+/* "Other" — looks exactly like a pill, just typeable */
+.pill-input {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  background: var(--black2);
+  color: var(--off-white);
+  border: 1px solid var(--black3);
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  min-width: 148px;
+  cursor: text;
+}
+.pill-input::placeholder { color: var(--muted); }
+.pill-input:focus { border-color: var(--muted); }
+.pill-input.filled {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--off-white);
+}
+
+/* Identity section — name + age */
+.identity-block {
+  padding: 24px;
+  border-bottom: 1px solid var(--black3);
+  background: var(--black2);
+}
+.identity-row {
+  display: flex;
+  gap: 12px;
+}
+.identity-row .field { flex: 1; }
+.identity-row .field.age { flex: 0 0 100px; }
+
+.field-label {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.text-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--black);
+  color: var(--off-white);
+  border: 1px solid var(--black3);
+  border-radius: 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.text-input:focus { border-color: var(--red); }
+.text-input::placeholder { color: var(--black3); font-style: italic; }
+
+/* Section block */
+.q-block { padding: 24px; border-bottom: 1px solid var(--black3); }
+.q-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.q-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Big CTA button */
+.cta {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  background: var(--red);
+  color: var(--off-white);
+  border: none;
+  border-radius: 2px;
+  font-family: 'Boogaloo', cursive;
+  font-size: 24px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cta:hover { background: var(--red-dark); }
+.cta:disabled {
+  background: var(--black3);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Summary card */
+.summary {
+  margin: 0 24px 24px;
+  padding: 16px;
+  background: var(--black2);
+  border: 1px solid var(--black3);
+}
+.summary-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px dashed var(--black3);
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row .k { font-family: 'DM Mono', monospace; color: var(--muted); }
+.summary-row .v { font-family: 'DM Sans', sans-serif; color: var(--off-white); text-align: right; }
+.summary-row .v.empty { color: var(--black3); font-style: italic; }

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mockup 1 — Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .pill {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+  .pill-input {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 18px;
+    background: var(--black2);
+    color: var(--off-white);
+    border: 1px solid var(--black3);
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    min-width: 148px;
+    cursor: text;
+    transition: border-color 0.15s;
+  }
+  .pill-input::placeholder { color: var(--muted); }
+  .pill-input:focus { border-color: var(--muted); }
+  .pill-input.filled {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--off-white);
+  }
+</style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="check-pattern"></div>
+    <div class="overlay"></div>
+    <div class="header-inner">
+      <h1>Apni Tragedy Bata</h1>
+      <div class="subtitle">fill in. get destroyed. share with enemies.</div>
+    </div>
+  </header>
+
+  <!-- Identity -->
+  <section class="identity-block">
+    <div class="q-label" style="margin-bottom:14px;">yaar, pehle bata</div>
+    <div class="identity-row">
+      <div class="field">
+        <label class="field-label">Naam</label>
+        <input class="text-input" type="text" value="Raj" placeholder="apna naam" />
+      </div>
+      <div class="field age">
+        <label class="field-label">Umar</label>
+        <input class="text-input" type="number" value="27" min="16" max="99" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Q1 -->
+  <section class="q-block">
+    <div class="q-label">kya karta hai?</div>
+    <div class="q-options">
+      <button class="pill selected">software engineer</button>
+      <button class="pill">student</button>
+      <button class="pill">MBA / consulting / banking</button>
+      <button class="pill">startup founder</button>
+      <button class="pill">govt job / sarkari</button>
+      <button class="pill">creator / freelancer</button>
+      <input class="pill-input" type="text" placeholder="ya kuch aur..." />
+    </div>
+  </section>
+
+  <!-- Q2 -->
+  <section class="q-block">
+    <div class="q-label">kahan ka hai?</div>
+    <div class="q-options">
+      <button class="pill">Mumbai</button>
+      <button class="pill">Delhi / NCR</button>
+      <button class="pill selected">Bangalore</button>
+      <button class="pill">Pune</button>
+      <button class="pill">Hyderabad</button>
+      <button class="pill">tier-2 / chhota sheher</button>
+      <button class="pill">abroad / NRI</button>
+      <input class="pill-input" type="text" placeholder="ya kahan aur..." />
+    </div>
+  </section>
+
+  <!-- Q3 -->
+  <section class="q-block">
+    <div class="q-label">love life ka kya scene hai?</div>
+    <div class="q-options">
+      <button class="pill selected">single (thriving 🙂)</button>
+      <button class="pill">it's complicated</button>
+      <button class="pill">taken (happily, apparently)</button>
+      <button class="pill">recently single</button>
+      <button class="pill">married</button>
+      <input class="pill-input" type="text" placeholder="ya kuch aur..." />
+    </div>
+  </section>
+
+  <!-- Q4 -->
+  <section class="q-block">
+    <div class="q-label">recent L</div>
+    <div class="q-options">
+      <button class="pill">chased someone who wasn't interested</button>
+      <button class="pill selected">gym membership, gaya 2 baar</button>
+      <button class="pill">failed interview I'd already bragged about</button>
+      <button class="pill">ghosted after a date I thought went great</button>
+      <button class="pill">crypto / stock loss (was gonna be rich)</button>
+      <button class="pill">bought a course, never opened it</button>
+      <input class="pill-input" type="text" placeholder="ya kuch aur..." />
+    </div>
+  </section>
+
+  <!-- Q5 -->
+  <section class="q-block">
+    <div class="q-label">sunday night lie</div>
+    <div class="q-options">
+      <button class="pill selected">"kal se gym pakka"</button>
+      <button class="pill">"fixing sleep schedule tomorrow"</button>
+      <button class="pill">"will reply to everyone"</button>
+      <button class="pill">"no Swiggy this week"</button>
+      <button class="pill">"less screen time, starting now"</button>
+      <button class="pill">"ek aur episode phir so jaunga"</button>
+      <input class="pill-input" type="text" placeholder="ya apni wali..." />
+    </div>
+  </section>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-title">tera scene kuch aisa hai</div>
+    <div class="summary-row"><span class="k">naam</span><span class="v">Raj, 27</span></div>
+    <div class="summary-row"><span class="k">kaam</span><span class="v">software engineer</span></div>
+    <div class="summary-row"><span class="k">sheher</span><span class="v">Bangalore</span></div>
+    <div class="summary-row"><span class="k">love life</span><span class="v">single (thriving 🙂)</span></div>
+    <div class="summary-row"><span class="k">recent L</span><span class="v">gym membership, gaya 2 baar</span></div>
+    <div class="summary-row"><span class="k">sunday lie</span><span class="v">"kal se gym pakka"</span></div>
+  </div>
+
+  <!-- CTA -->
+  <div style="padding: 0 24px 24px;">
+    <button class="cta">Roast Karo Yaar →</button>
+  </div>
+
+  <!-- Plaid trim -->
+  <div class="check-strip" style="height:24px; border-top: 3px solid var(--black);"></div>
+
+</div>
+</body>
+</html>
