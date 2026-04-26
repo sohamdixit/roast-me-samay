@@ -57,8 +57,8 @@ export default function App() {
     setError(null)
     startMusic()
 
-    // Loading screen runs for exactly 10s — syncs with beat buildup
-    const minDelay = new Promise(resolve => setTimeout(resolve, 10000))
+    // Loading screen runs for 8.5s — syncs with beat buildup
+    const minDelay = new Promise(resolve => setTimeout(resolve, 8500))
 
     try {
       const res = await fetch('/api/roast', {

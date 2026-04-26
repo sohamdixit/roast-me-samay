@@ -8,7 +8,7 @@ export default function RoastScreen({ formData, roastData, onRestart, muted, onT
 
   // Kill the flash overlay after its animation finishes
   useEffect(() => {
-    const t = setTimeout(() => setRevealing(false), 700)
+    const t = setTimeout(() => setRevealing(false), 900)
     return () => clearTimeout(t)
   }, [])
 

@@ -240,31 +240,17 @@ html, body, #root {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ─── Loading progress bar (10 s fill) ────────────────────────────────────── */
-.loading-progress-track {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: #160C0C;
-  z-index: 50;
-}
-.loading-progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #CC2128;
-  animation: progressFill 10s linear forwards;
-}
-@keyframes progressFill {
-  from { width: 0%; }
-  to   { width: 100%; }
-}
-
 /* ─── Diss screen reveal (fires on mount) ─────────────────────────────────── */
-/* Full-screen red flash that slams in then fades */
+
+/* Triple strobe: hard hit → off → second hit → off → echo → gone */
 @keyframes dissFlash {
-  0%   { opacity: 1; }
-  40%  { opacity: 0.85; }
-  100% { opacity: 0; }
+  0%   { opacity: 1;    }   /* slam on  */
+  18%  { opacity: 0;    }   /* cut      */
+  30%  { opacity: 0.88; }   /* hit 2    */
+  50%  { opacity: 0;    }   /* cut      */
+  60%  { opacity: 0.38; }   /* echo     */
+  78%  { opacity: 0;    }
+  100% { opacity: 0;    }
 }
 .diss-flash {
   position: fixed;
@@ -272,15 +258,16 @@ html, body, #root {
   background: #CC2128;
   z-index: 200;
   pointer-events: none;
-  animation: dissFlash 0.55s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+  animation: dissFlash 0.72s ease-out forwards;
 }
 
-/* Content slams in from slightly above + scales down */
+/* Content is already visible underneath the flash — just settles scale+brightness */
 @keyframes dissSlam {
-  0%   { opacity: 0; transform: scale(1.06) translateY(-12px); }
-  55%  { opacity: 1; transform: scale(0.985) translateY(3px); }
-  100% { opacity: 1; transform: scale(1.0)  translateY(0); }
+  0%   { transform: scale(1.08); filter: brightness(2.2); }
+  22%  { transform: scale(0.975); filter: brightness(1.05); }
+  55%  { transform: scale(1.012); filter: brightness(1); }
+  100% { transform: scale(1.0);  filter: brightness(1); }
 }
 .diss-slam {
-  animation: dissSlam 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: dissSlam 0.58s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
 }
