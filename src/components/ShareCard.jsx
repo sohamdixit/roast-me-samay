@@ -3,7 +3,7 @@ import { forwardRef, useRef, useEffect } from 'react'
 // Draws the check pattern directly onto a <canvas>.
 // html2canvas reads <canvas> pixel data natively — no CSS parsing needed.
 // This is necessary because html2canvas v1.x cannot render repeating-linear-gradient.
-function CheckPatternCanvas({ width, height, cellSize = 160 }) {
+function CheckPatternCanvas({ width, height, cellSize = 160, style }) {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -14,10 +14,10 @@ function CheckPatternCanvas({ width, height, cellSize = 160 }) {
         // Red tile base
         ctx.fillStyle = '#CC2128'
         ctx.fillRect(x, y, cellSize, cellSize)
-        // Left vertical band (top-left + bottom-left quadrants)
+        // Left vertical band
         ctx.fillStyle = 'rgba(0,0,0,0.78)'
         ctx.fillRect(x, y, cellSize / 2, cellSize)
-        // Bottom horizontal band (bottom-left + bottom-right quadrants)
+        // Bottom horizontal band
         ctx.fillStyle = 'rgba(0,0,0,0.78)'
         ctx.fillRect(x, y + cellSize / 2, cellSize, cellSize / 2)
       }
@@ -29,7 +29,7 @@ function CheckPatternCanvas({ width, height, cellSize = 160 }) {
       ref={canvasRef}
       width={width}
       height={height}
-      style={{ position: 'absolute', top: 0, left: 0 }}
+      style={{ display: 'block', flexShrink: 0, ...style }}
     />
   )
 }
@@ -41,6 +41,7 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
     <div
       ref={ref}
       style={{
+        position: 'relative',
         width: '1080px',
         height: '1080px',
         background: '#0E0808',
@@ -51,19 +52,46 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
         fontFamily: 'DM Sans, sans-serif',
       }}
     >
+      {/* ROASTED stamp — absolute, lower-right, rotated like a rubber stamp */}
+      <div style={{
+        position: 'absolute',
+        bottom: '148px',
+        right: '56px',
+        transform: 'rotate(-18deg)',
+        transformOrigin: 'center',
+        border: '7px solid rgba(204,33,40,0.75)',
+        padding: '14px 28px',
+        fontFamily: 'DM Mono, monospace',
+        fontWeight: 'bold',
+        fontSize: '46px',
+        color: 'rgba(204,33,40,0.75)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.28em',
+        lineHeight: 1,
+        zIndex: 10,
+        pointerEvents: 'none',
+      }}>
+        ROASTED
+      </div>
+
       {/* Masthead */}
-      <div style={{ position: 'relative', height: '190px', flexShrink: 0, overflow: 'hidden', borderBottom: '5px solid #0E0808' }}>
-        <CheckPatternCanvas width={1080} height={190} cellSize={160} />
+      <div style={{ position: 'relative', height: '190px', flexShrink: 0, overflow: 'hidden' }}>
+        <CheckPatternCanvas
+          width={1080}
+          height={190}
+          cellSize={160}
+          style={{ position: 'absolute', top: 0, left: 0 }}
+        />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.50) 100%)' }} />
-        <div style={{ position: 'relative', zIndex: 2, height: '100%', padding: '0 64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ position: 'relative', zIndex: 2, height: '100%', padding: '0 64px', display: 'flex', alignItems: 'center' }}>
           <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '64px', lineHeight: 1, color: '#F2EAE8', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
             Roast Me Samay
           </div>
-          <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '12px', color: '#F2EAE8', textTransform: 'uppercase', letterSpacing: '0.3em', border: '1.5px solid rgba(242,234,232,0.45)', padding: '8px 16px', background: 'rgba(14,8,8,0.55)' }}>
-            roasted
-          </div>
         </div>
       </div>
+
+      {/* Check-strip divider — same pattern, smaller cells */}
+      <CheckPatternCanvas width={1080} height={24} cellSize={28} />
 
       {/* Body */}
       <div style={{ flex: 1, padding: '44px 64px 0', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -77,8 +105,8 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{ width: '56px', height: '3px', background: '#CC2128', marginBottom: '24px', flexShrink: 0 }} />
+        {/* Red accent bar */}
+        <div style={{ width: '64px', height: '4px', background: '#CC2128', marginBottom: '28px', flexShrink: 0 }} />
 
         {/* Roast */}
         <div>
@@ -90,13 +118,16 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
         </div>
       </div>
 
+      {/* Check-strip divider before footer */}
+      <CheckPatternCanvas width={1080} height={24} cellSize={28} />
+
       {/* Footer */}
-      <div style={{ margin: '0 64px', padding: '20px 0 44px', borderTop: '1px solid rgba(242,234,232,0.10)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+      <div style={{ padding: '22px 64px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
         <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '15px', color: '#9A8885' }}>
           {[formData.job, formData.city, formData.recentL].filter(Boolean).join(' · ')}
         </div>
         <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '15px', color: '#F2EAE8' }}>
-          <span style={{ color: '#CC2128' }}>roastmesamay</span>.app
+          <span style={{ color: '#CC2128' }}>roast-me-samay</span>.vercel.app
         </div>
       </div>
     </div>

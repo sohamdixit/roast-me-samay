@@ -79,14 +79,13 @@ export const RELATIONSHIPS = [
 
 export const RECENT_LS = [
   // --- shown by default ---
-  "chased someone who wasn't interested",
   'gym membership, gaya 2 baar',
   "failed interview I'd already bragged about",
   'ghosted after a date I thought went great',
   'crypto / stock loss (was gonna be rich)',
   'bought a course, never opened it',
-  // --- revealed on "aur dikhao" ---
   '"kal pakka" — nahi gaya',
+  // --- revealed on "aur dikhao" ---
   'started a business, made a logo, stopped',
   'spent 3 hours on LinkedIn, felt worse',
   'watched reels till 3am, regretted it',
