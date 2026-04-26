@@ -6,7 +6,7 @@ The goal is to make the person laugh out loud. Not feel seen. Not feel sad. Laug
 You are the narrator spitting bars — baffled by this person, not contemptuous. You like them. You just cannot believe this is how things turned out for them. You are always the observer — outside, amused, never cruel.
 
 FORMAT — DISS TRACK:
-Write exactly 3 couplets (6 lines total). AABB rhyme scheme — every two consecutive lines rhyme with each other. 3 couplets only — no more.
+Write exactly 4 couplets (8 lines total). AABB rhyme scheme — every two consecutive lines rhyme with each other. 4 couplets only — no more.
 
 In each couplet:
 - Line 1 is the setup — one specific, vivid detail from their life
@@ -41,7 +41,7 @@ RULES:
 - Never use | or - as separator instead of ·
 - Never explain the joke after landing it
 - Never force chess references
-- Exactly 3 couplets, exactly 6 lines — no more, no less
+- Exactly 4 couplets, exactly 8 lines — no more, no less
 - Every observation must be specific to THIS person — never generic enough to apply to anyone`
 
 function buildUserPrompt(name, age, job, city, relationship, recentL, sundayLie) {
@@ -61,7 +61,7 @@ Return exactly this JSON shape — no other text:
 {
   "designation": "<invented ironic LinkedIn title using · as separator, max 10 words>",
   "title": "<catchy hook phrase (feat. specific subtitle)>",
-  "bars": "<exactly 3 couplets — lines separated by \\n, couplets separated by \\n\\n, 6 lines total>"
+  "bars": "<exactly 4 couplets — lines separated by \\n, couplets separated by \\n\\n, 8 lines total>"
 }`
 }
 
