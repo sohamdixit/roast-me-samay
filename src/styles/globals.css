@@ -145,6 +145,7 @@ html, body, #root {
 }
 .text-input:focus { border-color: #CC2128; }
 .text-input::placeholder { color: #241616; font-style: italic; }
+.text-input--error { border-color: #CC2128; }
 
 /* ─── Question sections ───────────────────────────────────────────────────── */
 .q-block {

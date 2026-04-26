@@ -60,7 +60,15 @@ export default function FormScreen({ onSubmit, error, initialData }) {
   const [recentL, setRecentL] = useState(initialData.recentL)
   const [sundayLie, setSundayLie] = useState(initialData.sundayLie)
 
-  const canSubmit = name.trim() && age && job && city && recentL
+  const ageNum    = parseInt(age, 10)
+  const ageError  = age.length > 0
+    ? ageNum === 69  ? 'nice.'
+    : ageNum >= 100  ? 'bhai, ek sau se upar? tera most recent L probably the partition hai.'
+    : null
+    : null
+  const ageBlocks = ageNum >= 100   // 69 is allowed through, 100+ is not
+
+  const canSubmit = name.trim() && age && !ageBlocks && job && city && recentL
 
   const summary = [
     { k: 'naam', v: name && age ? `${name}, ${age}` : null },
@@ -102,7 +110,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
             <input
               type="text"
               value={name}
-              onChange={e => setName(e.target.value)}
+              onChange={e => setName(e.target.value.replace(/[^a-zA-Z\s\-']/g, ''))}
               placeholder="apna naam"
               maxLength={40}
               className="text-input"
@@ -111,13 +119,18 @@ export default function FormScreen({ onSubmit, error, initialData }) {
           <div style={{ flex: '0 0 110px' }}>
             <label className="field-label">Umar</label>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               value={age}
-              onChange={e => setAge(e.target.value)}
-              min={16}
-              max={99}
-              className="text-input"
+              onChange={e => setAge(e.target.value.replace(/\D/g, '').slice(0, 3))}
+              placeholder="age"
+              className={`text-input ${ageBlocks ? 'text-input--error' : ''}`}
             />
+            {ageError && (
+              <div className="font-mono mt-2" style={{ fontSize: '11px', color: ageBlocks ? '#CC2128' : '#9A8885', letterSpacing: '0.02em' }}>
+                {ageError}
+              </div>
+            )}
           </div>
         </div>
       </section>
