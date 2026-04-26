@@ -35,7 +35,11 @@ function CheckPatternCanvas({ width, height, cellSize = 160, style }) {
 }
 
 const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
-  const paragraphs = roastData.roast.split('\n\n').filter(Boolean)
+  // bars: lines separated by \n, couplets separated by \n\n
+  const couplets = roastData.bars
+    .split('\n\n')
+    .filter(Boolean)
+    .map(block => block.split('\n').filter(Boolean))
 
   return (
     <div
@@ -52,7 +56,7 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
         fontFamily: 'DM Sans, sans-serif',
       }}
     >
-      {/* ROASTED stamp — absolute, lower-right, rotated like a rubber stamp */}
+      {/* DISSED stamp — absolute, lower-right, rotated like a rubber stamp */}
       <div style={{
         position: 'absolute',
         bottom: '148px',
@@ -71,7 +75,7 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
         zIndex: 10,
         pointerEvents: 'none',
       }}>
-        ROASTED
+        DISSED
       </div>
 
       {/* Masthead */}
@@ -94,26 +98,54 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
       <CheckPatternCanvas width={1080} height={24} cellSize={28} />
 
       {/* Body */}
-      <div style={{ flex: 1, padding: '44px 64px 0', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        {/* Person */}
-        <div style={{ marginBottom: '20px' }}>
-          <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '68px', lineHeight: 1, color: '#F2EAE8' }}>
+      <div style={{ flex: 1, padding: '40px 64px 0', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+
+        {/* Identity row */}
+        <div style={{ marginBottom: '12px' }}>
+          <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '64px', lineHeight: 1, color: '#F2EAE8' }}>
             {formData.name}, <span style={{ color: '#CC2128' }}>{formData.age}</span>
           </div>
-          <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '17px', color: '#CC2128', marginTop: '8px', lineHeight: 1.4, letterSpacing: '0.02em' }}>
+          <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '16px', color: '#CC2128', marginTop: '8px', lineHeight: 1.4, letterSpacing: '0.02em' }}>
             {roastData.designation}
           </div>
         </div>
 
         {/* Red accent bar */}
-        <div style={{ width: '64px', height: '4px', background: '#CC2128', marginBottom: '28px', flexShrink: 0 }} />
+        <div style={{ width: '64px', height: '4px', background: '#CC2128', marginBottom: '20px', flexShrink: 0 }} />
 
-        {/* Roast */}
-        <div>
-          {paragraphs.map((para, i) => (
-            <p key={i} style={{ fontFamily: 'DM Sans, sans-serif', fontSize: '36px', lineHeight: 1.55, color: '#F2EAE8', marginBottom: '28px' }}>
-              {para}
-            </p>
+        {/* Track label + title */}
+        <div style={{ marginBottom: '24px' }}>
+          <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '11px', color: '#9A8885', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '8px' }}>
+            TRACK 01
+          </div>
+          <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '34px', lineHeight: 1.2, color: '#F2EAE8' }}>
+            {roastData.title}
+          </div>
+        </div>
+
+        {/* Verse label */}
+        <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '11px', color: '#9A8885', textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '16px' }}>
+          VERSE 1
+        </div>
+
+        {/* Bars — lyric sheet style */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {couplets.map((lines, ci) => (
+            <div key={ci}>
+              {lines.map((line, li) => (
+                <div
+                  key={li}
+                  style={{
+                    fontFamily: 'DM Mono, monospace',
+                    fontSize: '28px',
+                    lineHeight: 1.55,
+                    color: '#F2EAE8',
+                  }}
+                >
+                  {line}
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       </div>

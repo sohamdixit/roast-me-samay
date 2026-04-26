@@ -4,7 +4,12 @@ import ShareCard from '../components/ShareCard'
 
 export default function RoastScreen({ formData, roastData, onRestart }) {
   const shareCardRef = useRef(null)
-  const paragraphs = roastData.roast.split('\n\n').filter(Boolean)
+
+  // bars: lines separated by \n, couplets separated by \n\n
+  const couplets = roastData.bars
+    .split('\n\n')
+    .filter(Boolean)
+    .map(block => block.split('\n').filter(Boolean))
 
   async function handleShare() {
     await document.fonts.ready
@@ -21,7 +26,7 @@ export default function RoastScreen({ formData, roastData, onRestart }) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `roast-${formData.name.toLowerCase()}.png`
+    a.download = `diss-${formData.name.toLowerCase()}.png`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -34,10 +39,10 @@ export default function RoastScreen({ formData, roastData, onRestart }) {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(26,16,16,0.10) 0%, rgba(26,16,16,0.45) 100%)' }} />
         <div className="relative z-10">
           <h1 className="font-heading text-off-white leading-none" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
-            Apni Tragedy Bata
+            Roast Me Samay
           </h1>
           <div className="inline-block font-mono text-xs text-off-white mt-3" style={{ background: 'rgba(26,16,16,0.78)', padding: '4px 8px' }}>
-            tera roast aaya, {formData.name}
+            tera diss track aaya, {formData.name}
           </div>
         </div>
       </header>
@@ -45,9 +50,9 @@ export default function RoastScreen({ formData, roastData, onRestart }) {
       {/* Check strip divider */}
       <div className="check-strip" style={{ height: '12px' }} />
 
-      {/* Designation */}
+      {/* Identity + designation */}
       <div className="screen-section" style={{ paddingBottom: 0 }}>
-        <div className="font-mono text-xs text-red uppercase tracking-widest mb-1">ROASTED →</div>
+        <div className="font-mono text-xs text-red uppercase tracking-widest mb-1">DISSED →</div>
         <div className="font-heading text-off-white" style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}>
           {formData.name}, <span className="text-red">{formData.age}</span>
         </div>
@@ -57,17 +62,36 @@ export default function RoastScreen({ formData, roastData, onRestart }) {
         <div className="mt-4" style={{ width: '56px', height: '3px', background: '#CC2128' }} />
       </div>
 
-      {/* Roast text */}
-      <div className="screen-section">
-        {paragraphs.map((para, i) => (
-          <p key={i} className="font-body text-off-white leading-relaxed mb-5 last:mb-0" style={{ fontSize: 'clamp(16px, 2.5vw, 19px)' }}>
-            {para}
-          </p>
-        ))}
+      {/* Track title */}
+      <div className="screen-section" style={{ paddingTop: '20px', paddingBottom: '8px' }}>
+        <div className="font-mono text-xs text-red uppercase tracking-widest mb-2">TRACK 01</div>
+        <div className="font-heading text-off-white" style={{ fontSize: 'clamp(1.1rem, 3vw, 1.5rem)', lineHeight: 1.2 }}>
+          {roastData.title}
+        </div>
+      </div>
+
+      {/* Bars */}
+      <div className="screen-section" style={{ paddingTop: '16px' }}>
+        <div className="font-mono text-xs text-muted uppercase tracking-widest mb-4">VERSE 1</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {couplets.map((lines, ci) => (
+            <div key={ci}>
+              {lines.map((line, li) => (
+                <div
+                  key={li}
+                  className="font-mono text-off-white"
+                  style={{ fontSize: 'clamp(14px, 2.2vw, 17px)', lineHeight: 1.6 }}
+                >
+                  {line}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Check strip */}
-      <div className="check-strip" style={{ height: '12px' }} />
+      <div className="check-strip" style={{ height: '12px', marginTop: '8px' }} />
 
       {/* Actions */}
       <div className="screen-section" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -75,7 +99,7 @@ export default function RoastScreen({ formData, roastData, onRestart }) {
           share karo →
         </button>
         <button type="button" onClick={onRestart} className="cta-secondary">
-          ek aur roast →
+          ek aur diss →
         </button>
       </div>
 
