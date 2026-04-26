@@ -58,8 +58,8 @@ export default function App() {
     startMusic()
 
     // Animation (0.72s) fires after this delay.
-    // Target: animation finishes at exactly 11s into the beat → 11000 - 720 = 10280ms
-    const minDelay = new Promise(resolve => setTimeout(resolve, 10280))
+    // Target: animation finishes at end of 11th second (12s) → 12000 - 720 = 11280ms
+    const minDelay = new Promise(resolve => setTimeout(resolve, 11280))
 
     try {
       const res = await fetch('/api/roast', {
