@@ -44,15 +44,26 @@ function randomIdx(current) {
 }
 
 export default function LoadingScreen() {
-  const [idx, setIdx] = useState(() => Math.floor(Math.random() * MESSAGES.length))
+  const [idx, setIdx]   = useState(() => Math.floor(Math.random() * MESSAGES.length))
+  const [dots, setDots] = useState('...')
 
   useEffect(() => {
     const t = setInterval(() => setIdx(i => randomIdx(i)), 2200)
     return () => clearInterval(t)
   }, [])
 
+  useEffect(() => {
+    const t = setInterval(() => setDots(d => d.length >= 3 ? '.' : d + '.'), 380)
+    return () => clearInterval(t)
+  }, [])
+
   return (
     <div className="screen flex flex-col items-center justify-center min-h-screen gap-10">
+      {/* Status label */}
+      <div className="font-mono" style={{ fontSize: '13px', letterSpacing: '0.14em', color: '#CC2128' }}>
+        [GENERATING{dots}]
+      </div>
+
       {/* Spinner */}
       <div className="spinner" />
 
