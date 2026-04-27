@@ -55,11 +55,7 @@ export default function App() {
     setSavedForm(data)
     setScreen('loading')
     setError(null)
-    startMusic()
-
-    // Animation (0.72s) fires after this delay.
-    // Target: animation finishes at end of 11th second (12s) → 12000 - 720 = 11280ms
-    const minDelay = new Promise(resolve => setTimeout(resolve, 11280))
+    // Music does NOT start here — we wait for the API response first
 
     try {
       const res = await fetch('/api/roast', {
@@ -68,12 +64,16 @@ export default function App() {
         body: JSON.stringify(data),
       })
       const json = await res.json()
-      await minDelay                               // wait out remaining minimum time
       if (!res.ok) throw new Error(json.error || 'Something went wrong')
+
+      // Response in hand — cue the beat and stay on loading screen for 11.28s
+      // so the reveal animation finishes exactly at the end of the 11th second.
+      startMusic()
+      await new Promise(resolve => setTimeout(resolve, 11280))
+
       setRoastData(json)
       setScreen('roast')
     } catch {
-      await minDelay                               // already resolved if API was slow
       stopMusic()
       setError(randomError())
       setScreen('form')
