@@ -93,7 +93,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(26,16,16,0.10) 0%, rgba(26,16,16,0.45) 100%)' }} />
         <div className="relative z-10">
           <h1 className="font-heading text-off-white leading-none" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
-            Apni Tragedy Bata
+            Apni Life Ka Diss Track
           </h1>
           <div className="inline-block font-mono text-xs text-off-white mt-3" style={{ background: 'rgba(26,16,16,0.78)', padding: '4px 8px' }}>
             fill in. get destroyed. share with enemies.
@@ -103,7 +103,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
 
       {/* Identity */}
       <section className="screen-section border-b border-black3" style={{ background: '#160C0C' }}>
-        <div className="font-mono text-xs text-muted uppercase tracking-widest mb-4">yaar, pehle bata</div>
+        <div className="font-mono text-xs text-muted uppercase tracking-widest mb-4">Pehle, apni tragedy bata</div>
         <div className="flex gap-3">
           <div className="flex-1">
             <label className="field-label">Naam</label>
@@ -195,7 +195,7 @@ export default function FormScreen({ onSubmit, error, initialData }) {
           disabled={!canSubmit}
           className="cta"
         >
-          Roast Karo Yaar →
+          Diss Karo Yaar →
         </button>
       </div>
 
