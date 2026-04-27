@@ -42,7 +42,9 @@ RULES:
 - Never explain the joke after landing it
 - Never force chess references
 - Exactly 4 couplets, exactly 8 lines — no more, no less
-- Every observation must be specific to THIS person — never generic enough to apply to anyone`
+- Every observation must be specific to THIS person — never generic enough to apply to anyone
+- JSON output only: use the two-character sequence \n for line breaks in bars — never put a real newline character inside a JSON string value
+- JSON output only: never put double-quote characters inside string values — use single quotes if quoting is needed`
 
 function buildUserPrompt(name, age, job, city, relationship, recentL, sundayLie) {
   return `Write a diss track / rap roast for this person in Samay Raina's voice. Respond with valid JSON only — no extra text before or after.
@@ -63,6 +65,56 @@ Return exactly this JSON shape — no other text:
   "title": "<catchy hook phrase (feat. specific subtitle)>",
   "bars": "<exactly 4 couplets — lines separated by \\n, couplets separated by \\n\\n, 8 lines total>"
 }`
+}
+
+// ─── JSON repair ─────────────────────────────────────────────────────────────
+// LLMs frequently return malformed JSON. This function fixes the two most
+// common failure modes before handing off to JSON.parse:
+//   1. Literal newline / tab / carriage-return characters inside string values
+//      (JSON spec requires these to be escaped as \n / \t / \r)
+//   2. Extra text or markdown fences wrapping the object
+
+function repairJSON(raw) {
+  // Strip markdown code fences (```json ... ``` or ``` ... ```)
+  let s = raw
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/```\s*$/g, '')
+    .trim()
+
+  // Extract the first complete {...} block — ignores any preamble/postamble
+  const start = s.indexOf('{')
+  const end   = s.lastIndexOf('}')
+  if (start === -1 || end === -1) throw new Error('No JSON object in model response')
+  s = s.slice(start, end + 1)
+
+  // Walk character-by-character, track whether we are inside a JSON string,
+  // and replace any bare control characters with their escape sequences.
+  let out      = ''
+  let inString = false
+  let i        = 0
+  while (i < s.length) {
+    const ch = s[i]
+    // Already-escaped pair — pass through unchanged so we don't double-escape
+    if (ch === '\\' && inString) {
+      out += ch + (s[i + 1] ?? '')
+      i += 2
+      continue
+    }
+    if (ch === '"') {
+      inString = !inString
+      out += ch
+    } else if (inString) {
+      if      (ch === '\n') out += '\\n'
+      else if (ch === '\r') out += '\\r'
+      else if (ch === '\t') out += '\\t'
+      else                  out += ch
+    } else {
+      out += ch
+    }
+    i++
+  }
+  return out
 }
 
 // ─── LLM adapter ────────────────────────────────────────────────────────────
@@ -98,7 +150,16 @@ async function callLLM(systemPrompt, userPrompt) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
-  const { name, age, job, city, relationship, recentL, sundayLie } = req.body
+  const sanitise = (v, maxLen = 120) =>
+    typeof v === 'string' ? v.trim().slice(0, maxLen) : ''
+
+  const name        = sanitise(req.body.name, 60)
+  const age         = String(req.body.age ?? '').trim().slice(0, 3)
+  const job         = sanitise(req.body.job)
+  const city        = sanitise(req.body.city)
+  const relationship = sanitise(req.body.relationship)
+  const recentL     = sanitise(req.body.recentL)
+  const sundayLie   = sanitise(req.body.sundayLie)
 
   if (!name || !age || !job || !city || !recentL) {
     return res.status(400).json({ error: 'Required fields missing' })
@@ -106,9 +167,7 @@ export default async function handler(req, res) {
 
   try {
     const raw    = await callLLM(SAMAY_SYSTEM_PROMPT, buildUserPrompt(name, age, job, city, relationship, recentL, sundayLie))
-    // Gemini sometimes wraps JSON in ```json ... ``` — strip it
-    const clean  = raw.replace(/^```json\s*/i, '').replace(/```\s*$/,'').trim()
-    const parsed = JSON.parse(clean)
+    const parsed = JSON.parse(repairJSON(raw))
 
     res.status(200).json({
       title:       parsed.title       ?? '',
