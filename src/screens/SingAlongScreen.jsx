@@ -128,18 +128,20 @@ export default function SingAlongScreen({ roastData, onSkip, onFinish, muted, on
                 <div
                   key={i}
                   style={{
-                    height:         SLOT_H,
-                    display:        'flex',
-                    alignItems:     'center',
-                    justifyContent: 'center',
-                    padding:        '0 40px',
-                    textAlign:      'center',
-                    fontFamily:     'DM Mono, monospace',
-                    fontSize:       isCurr ? 'clamp(22px, 5vw, 30px)' : 'clamp(12px, 2.5vw, 15px)',
-                    fontWeight:     isCurr ? '500' : '400',
-                    color:          isCurr ? '#F2EAE8' : '#9A8885',
-                    opacity:        isCurr ? 1 : isAdj ? 0.45 : 0,
-                    transition:     'font-size 0.5s ease, color 0.5s ease, opacity 0.5s ease',
+                    height:          SLOT_H,
+                    display:         'flex',
+                    alignItems:      'center',
+                    justifyContent:  'center',
+                    padding:         '0 40px',
+                    textAlign:       'center',
+                    fontFamily:      'DM Mono, monospace',
+                    fontSize:        'clamp(22px, 5vw, 30px)',  // same for all — no reflow
+                    fontWeight:      '500',
+                    color:           '#F2EAE8',
+                    // scale instead of font-size: GPU-composited, no layout impact → no flicker
+                    transform:       isCurr ? 'scale(1)' : 'scale(0.52)',
+                    opacity:         isCurr ? 1 : isAdj ? 0.45 : 0,
+                    transition:      'transform 0.5s ease, opacity 0.5s ease',
                   }}
                 >
                   {line}
