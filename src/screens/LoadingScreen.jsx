@@ -82,9 +82,17 @@ export default function LoadingScreen({ buildingUp = false, title = '' }) {
           </div>
         )}
 
-        {/* Hype copy */}
-        <div className="font-mono text-muted text-center" style={{ fontSize: '13px', letterSpacing: '0.06em' }}>
-          teri diss track aane waali hai...
+        {/* Instruction */}
+        <div style={{ textAlign: 'center' }}>
+          <div
+            className="font-heading text-center"
+            style={{ fontSize: 'clamp(18px, 4vw, 24px)', color: '#CC2128', letterSpacing: '0.02em' }}
+          >
+            get ready to sing along
+          </div>
+          <div className="font-mono text-muted text-center mt-2" style={{ fontSize: '12px', letterSpacing: '0.06em' }}>
+            teri diss track aane waali hai...
+          </div>
         </div>
       </div>
     )
