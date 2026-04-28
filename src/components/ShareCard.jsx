@@ -89,7 +89,7 @@ const ShareCard = forwardRef(function ShareCard({ formData, roastData }, ref) {
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.50) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, height: '100%', padding: '0 64px', display: 'flex', alignItems: 'center' }}>
           <div style={{ fontFamily: 'Boogaloo, cursive', fontSize: '64px', lineHeight: 1, color: '#F2EAE8', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
-            Roast Me Samay
+            Diss Me Samay
           </div>
         </div>
       </div>

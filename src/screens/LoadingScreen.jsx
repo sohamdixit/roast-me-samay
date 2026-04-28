@@ -43,20 +43,54 @@ function randomIdx(current) {
   return next
 }
 
-export default function LoadingScreen() {
+export default function LoadingScreen({ buildingUp = false, title = '' }) {
   const [idx, setIdx]   = useState(() => Math.floor(Math.random() * MESSAGES.length))
   const [dots, setDots] = useState('...')
 
   useEffect(() => {
+    if (buildingUp) return  // freeze messages once audio starts
     const t = setInterval(() => setIdx(i => randomIdx(i)), 2200)
     return () => clearInterval(t)
-  }, [])
+  }, [buildingUp])
 
   useEffect(() => {
+    if (buildingUp) return  // freeze dots animation
     const t = setInterval(() => setDots(d => d.length >= 3 ? '.' : d + '.'), 380)
     return () => clearInterval(t)
-  }, [])
+  }, [buildingUp])
 
+  /* ── Build-up mode: audio is playing, hype is building ── */
+  if (buildingUp) {
+    return (
+      <div className="screen flex flex-col items-center justify-center min-h-screen gap-8">
+        {/* Waveform */}
+        <div className="wave-bars">
+          <div className="wave-bar" />
+          <div className="wave-bar" />
+          <div className="wave-bar" />
+          <div className="wave-bar" />
+          <div className="wave-bar" />
+        </div>
+
+        {/* Track title */}
+        {title && (
+          <div
+            className="font-heading text-off-white text-center px-8"
+            style={{ fontSize: 'clamp(22px, 5vw, 32px)', lineHeight: 1.2 }}
+          >
+            {title}
+          </div>
+        )}
+
+        {/* Hype copy */}
+        <div className="font-mono text-muted text-center" style={{ fontSize: '13px', letterSpacing: '0.06em' }}>
+          teri diss track aane waali hai...
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Normal mode: waiting for API ── */
   return (
     <div className="screen flex flex-col items-center justify-center min-h-screen gap-10">
       {/* Status label */}
@@ -67,7 +101,7 @@ export default function LoadingScreen() {
       {/* Spinner */}
       <div className="spinner" />
 
-      {/* Message — big, centred, hard to miss */}
+      {/* Message */}
       <div
         className="font-mono text-off-white text-center px-8"
         style={{ fontSize: 'clamp(18px, 4vw, 26px)', lineHeight: 1.4, letterSpacing: '0.01em', minHeight: '2.8em' }}

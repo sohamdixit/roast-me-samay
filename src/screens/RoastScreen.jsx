@@ -50,7 +50,7 @@ export default function RoastScreen({ formData, roastData, onRestart, muted, onT
         <div className="relative z-10 flex items-start justify-between gap-4">
           <div>
             <h1 className="font-heading text-off-white leading-none" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', textShadow: '0 2px 0 rgba(0,0,0,0.55)' }}>
-              Roast Me Samay
+              Diss Me Samay
             </h1>
             <div className="inline-block font-mono text-xs text-off-white mt-3" style={{ background: 'rgba(26,16,16,0.78)', padding: '4px 8px' }}>
               tera diss track aaya, {formData.name}

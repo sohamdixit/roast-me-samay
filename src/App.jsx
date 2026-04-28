@@ -1,12 +1,13 @@
 import { useState, useRef } from 'react'
-import FormScreen from './screens/FormScreen'
-import LoadingScreen from './screens/LoadingScreen'
-import RoastScreen from './screens/RoastScreen'
+import FormScreen      from './screens/FormScreen'
+import LoadingScreen   from './screens/LoadingScreen'
+import SingAlongScreen from './screens/SingAlongScreen'
+import RoastScreen     from './screens/RoastScreen'
 
 const BEAT_URL = '/beat.mp3'
 
 const ERROR_MSGS = [
-  'server ne bhi roast sunne se mana kar diya. retry kar yaar.',
+  'server ne bhi diss sunne se mana kar diya. retry kar yaar.',
   'API bhi teri tarah unreliable nikla. ek baar aur try kar.',
   'kuch toh gadbad hai. Samay bhi confused hai. dobara try kar.',
   'yaar network ne bhi judge kiya. phir se chal.',
@@ -19,11 +20,12 @@ function randomError() {
 const EMPTY_FORM = { name: '', age: '', job: '', city: '', relationship: '', recentL: '', sundayLie: '' }
 
 export default function App() {
-  const [screen, setScreen] = useState('form')
-  const [savedForm, setSavedForm] = useState(EMPTY_FORM)
-  const [roastData, setRoastData] = useState(null)
-  const [error, setError] = useState(null)
-  const [muted, setMuted] = useState(false)
+  const [screen,     setScreen]     = useState('form')
+  const [buildingUp, setBuildingUp] = useState(false)
+  const [savedForm,  setSavedForm]  = useState(EMPTY_FORM)
+  const [roastData,  setRoastData]  = useState(null)
+  const [error,      setError]      = useState(null)
+  const [muted,      setMuted]      = useState(false)
   const audioRef = useRef(null)
 
   function startMusic() {
@@ -32,7 +34,7 @@ export default function App() {
       audioRef.current.loop = true
       audioRef.current.volume = 0.35
     }
-    audioRef.current.play().catch(() => {}) // silently ignore autoplay block
+    audioRef.current.play().catch(() => {})
   }
 
   function stopMusic() {
@@ -55,29 +57,36 @@ export default function App() {
     setSavedForm(data)
     setScreen('loading')
     setError(null)
-    // Music does NOT start here — we wait for the API response first
 
     try {
-      const res = await fetch('/api/roast', {
-        method: 'POST',
+      const res  = await fetch('/api/roast', {
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body:    JSON.stringify(data),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Something went wrong')
 
-      // Response in hand — cue the beat and stay on loading screen for 11.28s
-      // so the reveal animation finishes exactly at the end of the 11th second.
+      // Response received — store data, switch loading screen to build-up mode, cue beat.
+      // Hold for 11.28s so the reveal animation finishes at the end of the 11th second.
+      setRoastData(json)
+      setBuildingUp(true)
       startMusic()
       await new Promise(resolve => setTimeout(resolve, 11280))
 
-      setRoastData(json)
-      setScreen('roast')
+      setBuildingUp(false)
+      setScreen('singalong')
     } catch {
+      setBuildingUp(false)
       stopMusic()
       setError(randomError())
       setScreen('form')
     }
+  }
+
+  // Both skip and natural finish land on the card screen
+  function handleSingAlongDone() {
+    setScreen('roast')
   }
 
   function handleRestart() {
@@ -88,7 +97,18 @@ export default function App() {
     setError(null)
   }
 
-  if (screen === 'loading') return <LoadingScreen />
+  if (screen === 'loading') return (
+    <LoadingScreen buildingUp={buildingUp} title={roastData?.title ?? ''} />
+  )
+  if (screen === 'singalong') return (
+    <SingAlongScreen
+      roastData={roastData}
+      onSkip={handleSingAlongDone}
+      onFinish={handleSingAlongDone}
+      muted={muted}
+      onToggleMute={toggleMute}
+    />
+  )
   if (screen === 'roast') return (
     <RoastScreen
       formData={savedForm}
